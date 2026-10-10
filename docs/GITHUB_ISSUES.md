@@ -283,3 +283,47 @@ Repository: [https://github.com/princecherry9905/try](https://github.com/princec
 - **Suggested owner:** Team Lead (Prince Kumar)
 - **Priority:** High
 - **Labels:** `deployment`, `frontend`
+
+---
+
+## Landing Page Issues (#41 - #45)
+
+### Issue #41: Build Landing Page responsive navigation header
+- **Problem / scope:** Implement the top navigation bar for the xSTUDENT landing page with brand logo, graduation cap badge, navigation links (Features, Tech Stack), and CTA action buttons (Sign In, Live App Demo).
+- **Acceptance criteria:** Header renders with sleek dark navy styling (`#0B192C`); brand logo links to top; action buttons navigate to auth and dashboard; responsive across desktop and mobile.
+- **Suggested owner:** Frontend member
+- **Priority:** High
+- **Labels:** `frontend`, `ui`
+- **GitHub Link:** [https://github.com/princecherry9905/try/issues/41](https://github.com/princecherry9905/try/issues/41)
+
+### Issue #42: Build Landing Page Hero section with glowing typography & badge
+- **Problem / scope:** Construct the central hero banner featuring a radial dark gradient background, college assignment pill badge ("College Assignment 4 • Full-Stack CRUD Application"), prominent two-tone headline ("Next-Gen Student Administration Built for Speed & Simplicity"), and descriptive lead text.
+- **Acceptance criteria:** Deep navy radial background (`radial-gradient`); translucent pill badge with border glow; responsive two-tone typography; accessible WCAG AA contrast.
+- **Suggested owner:** Frontend member
+- **Priority:** High
+- **Labels:** `frontend`, `ui`
+- **GitHub Link:** [https://github.com/princecherry9905/try/issues/42](https://github.com/princecherry9905/try/issues/42)
+
+### Issue #43: Implement Landing Page CTA buttons with interactive routing
+- **Problem / scope:** Implement the primary "Explore Live Dashboard" button and secondary "Create Account" outline button within the hero section, wiring them to client-side routing/state transitions.
+- **Acceptance criteria:** Primary button features royal blue background and hover elevation; secondary outline button features crisp light border; interactive navigation handlers; keyboard accessible.
+- **Suggested owner:** Frontend member
+- **Priority:** High
+- **Labels:** `frontend`, `ux`
+- **GitHub Link:** [https://github.com/princecherry9905/try/issues/43](https://github.com/princecherry9905/try/issues/43)
+
+### Issue #44: Build Landing Page glassmorphic metric highlight cards
+- **Problem / scope:** Create the 4 floating metric highlight cards shown in the hero banner: "100% Native Fetch (No Axios)", "40 Documented GitHub Issues", "Bootstrap 5 Responsive & Accessible", and "JWT + RBAC Admin & User Roles".
+- **Acceptance criteria:** Responsive 4-column desktop and 2-column mobile grid; translucent dark cards with border; clear stat and description typography; subtle hover elevation.
+- **Suggested owner:** Frontend member
+- **Priority:** High
+- **Labels:** `frontend`, `ui`
+- **GitHub Link:** [https://github.com/princecherry9905/try/issues/44](https://github.com/princecherry9905/try/issues/44)
+
+### Issue #45: Implement Landing Page features grid, tech stack banner & footer
+- **Problem / scope:** Construct the supportive content sections beneath the hero: Core Features 4-card grid (CRUD, RBAC, Search/Filters, Delete Modal), modern Tech Stack badge strip (React 19, Vite, Bootstrap 5.3, Express, MongoDB Atlas, JWT), and college assignment attribution footer.
+- **Acceptance criteria:** Features grid highlights CRUD, RBAC, Search/Filters, Delete Modal; tech stack strip showcases zero-Axios/zero-jQuery stack; footer credits Team Lead Prince Kumar and links repo.
+- **Suggested owner:** Frontend member
+- **Priority:** Medium
+- **Labels:** `frontend`, `ui`
+- **GitHub Link:** [https://github.com/princecherry9905/try/issues/45](https://github.com/princecherry9905/try/issues/45)
