@@ -60,6 +60,8 @@ Open http://localhost:5173 — the page shows whether the backend is reachable.
 | GET | `/api/health` | API status + DB connection state |
 
 ## Contribution Workflow
+Please read **[CONTRIBUTING.md](CONTRIBUTING.md)** before contributing — it covers setup, branching, commits, PRs and code review.
+
 Issue → Assigned developer → Feature branch → Code changes → Tests → Pull Request → Review → Merge into `main`
 
 Branch names:
