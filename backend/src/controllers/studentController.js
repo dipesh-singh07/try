@@ -1,74 +1,49 @@
-import mongoose from "mongoose";
-import Student from "../models/Student.js";
+const mongoose = require("mongoose");
+const Student = require("../models/Student");
 
-const getAllStudents = async (req, res, next) => {
+const getAllStudents = async (req, res) => {
   try {
-    let page = 1;
-    let limit = 10;
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
 
-    if (req.query.page !== undefined) {
-      const parsedPage = Number(req.query.page);
-      if (!Number.isInteger(parsedPage) || parsedPage < 1) {
-        return res.status(400).json({
-          success: false,
-          message: "Page must be a positive integer greater than or equal to 1",
-        });
-      }
-      page = parsedPage;
-    }
-
-    if (req.query.limit !== undefined) {
-      const parsedLimit = Number(req.query.limit);
-      if (!Number.isInteger(parsedLimit) || parsedLimit < 1 || parsedLimit > 100) {
-        return res.status(400).json({
-          success: false,
-          message: "Limit must be an integer between 1 and 100",
-        });
-      }
-      limit = parsedLimit;
+    if (page < 1 || limit < 1 || limit > 100) {
+      return res.status(400).json({
+        message: "Invalid page or limit",
+      });
     }
 
     const filter = {};
-    if (req.query.course && typeof req.query.course === "string" && req.query.course.trim()) {
-      filter.course = req.query.course.trim();
+
+    if (req.query.course) {
+      filter.course = req.query.course;
     }
 
-    const [students, totalStudents] = await Promise.all([
-      Student.find(filter)
-        .sort({ createdAt: -1 })
-        .skip((page - 1) * limit)
-        .limit(limit),
+    const students = await Student.find(filter)
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
 
-      Student.countDocuments(filter),
-    ]);
+    const totalStudents = await Student.countDocuments(filter);
 
-    return res.status(200).json({
-      success: true,
+    res.status(200).json({
       count: students.length,
-      pagination: {
-        currentPage: page,
-        limit,
-        totalStudents,
-        totalPages: Math.ceil(totalStudents / limit),
-      },
-      data: students,
+      totalStudents,
+      totalPages: Math.ceil(totalStudents / limit),
+      students,
     });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Server error",
-      error: error.message,
+  } catch (err) {
+    res.status(500).json({
+      message: "Server Error",
     });
   }
 };
 
-const getStudentById = async (req, res, next) => {
+const getStudentById = async (req, res) => {
   try {
     const { id } = req.params;
 
     if (!mongoose.isValidObjectId(id)) {
       return res.status(400).json({
-        success: false,
         message: "Invalid student ID",
       });
     }
@@ -77,22 +52,18 @@ const getStudentById = async (req, res, next) => {
 
     if (!student) {
       return res.status(404).json({
-        success: false,
         message: "Student not found",
       });
     }
 
-    return res.status(200).json({
-      success: true,
-      data: student,
+    res.status(200).json({
+      student,
     });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Server error",
-      error: error.message,
+  } catch (err) {
+    res.status(500).json({
+      message: "Server Error",
     });
   }
 };
 
-export { getAllStudents, getStudentById };
+module.exports = { getAllStudents, getStudentById };
