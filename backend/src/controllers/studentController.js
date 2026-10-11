@@ -66,4 +66,48 @@ const getStudentById = async (req, res) => {
   }
 };
 
-export { getAllStudents, getStudentById };
+const createStudent = async (req, res) => {
+  try {
+    const { studentId, fullName, email, course, rollNo } = req.body;
+
+    if (!studentId || !fullName || !email || !course || !rollNo) {
+      return res.status(400).json({
+        message: "All fields are required (studentId, fullName, email, course, rollNo)",
+      });
+    }
+
+    const existingStudent = await Student.findOne({
+      $or: [{ studentId }, { email }, { rollNo }],
+    });
+
+    if (existingStudent) {
+      return res.status(400).json({
+        message: "Student with this studentId, email, or rollNo already exists",
+      });
+    }
+
+    const student = await Student.create({
+      studentId: studentId.trim(),
+      fullName: fullName.trim(),
+      email: email.trim().toLowerCase(),
+      course: course.trim(),
+      rollNo: rollNo.trim(),
+    });
+
+    res.status(201).json({
+      message: "Student created successfully",
+      student,
+    });
+  } catch (err) {
+    if (err.code === 11000) {
+      return res.status(400).json({
+        message: "Student with this studentId, email, or rollNo already exists",
+      });
+    }
+    res.status(500).json({
+      message: "Server Error",
+    });
+  }
+};
+
+export { getAllStudents, getStudentById, createStudent };
