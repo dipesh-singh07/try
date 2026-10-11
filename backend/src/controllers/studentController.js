@@ -110,4 +110,74 @@ const createStudent = async (req, res) => {
   }
 };
 
-export { getAllStudents, getStudentById, createStudent };
+const updateStudent = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(400).json({
+        message: "Invalid student ID",
+      });
+    }
+
+    const { studentId, fullName, email, course, rollNo } = req.body;
+
+    const updates = {};
+    if (studentId !== undefined) updates.studentId = studentId.trim();
+    if (fullName !== undefined) updates.fullName = fullName.trim();
+    if (email !== undefined) updates.email = email.trim().toLowerCase();
+    if (course !== undefined) updates.course = course.trim();
+    if (rollNo !== undefined) updates.rollNo = rollNo.trim();
+
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({
+        message: "No fields provided to update",
+      });
+    }
+
+    if (updates.studentId || updates.email || updates.rollNo) {
+      const duplicateConditions = [];
+      if (updates.studentId) duplicateConditions.push({ studentId: updates.studentId });
+      if (updates.email) duplicateConditions.push({ email: updates.email });
+      if (updates.rollNo) duplicateConditions.push({ rollNo: updates.rollNo });
+
+      const existingStudent = await Student.findOne({
+        _id: { $ne: id },
+        $or: duplicateConditions,
+      });
+
+      if (existingStudent) {
+        return res.status(400).json({
+          message: "Student with this studentId, email, or rollNo already exists",
+        });
+      }
+    }
+
+    const updatedStudent = await Student.findByIdAndUpdate(id, updates, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedStudent) {
+      return res.status(404).json({
+        message: "Student not found",
+      });
+    }
+
+    res.status(200).json({
+      message: "Student updated successfully",
+      student: updatedStudent,
+    });
+  } catch (err) {
+    if (err.code === 11000) {
+      return res.status(400).json({
+        message: "Student with this studentId, email, or rollNo already exists",
+      });
+    }
+    res.status(500).json({
+      message: "Server Error",
+    });
+  }
+};
+
+export { getAllStudents, getStudentById, createStudent, updateStudent };
