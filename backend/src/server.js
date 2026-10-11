@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { connectDB } from "./config/db.js";
 import studentRoutes from "./routes/studentRoutes.js";
+import healthRoutes from "./routes/healthRoutes.js";
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
 
@@ -25,6 +27,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use("/api/health", healthRoutes);
 app.use("/api/students", studentRoutes);
 
 app.get("/", (req, res) => {
@@ -32,6 +35,9 @@ app.get("/", (req, res) => {
     message: "Server is running",
   });
 });
+
+app.use(notFound);
+app.use(errorHandler);
 
 connectDB().then(() => {
   app.listen(PORT, () => {
