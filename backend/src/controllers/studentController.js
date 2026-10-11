@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const Student = require("../models/Student");
+import mongoose from "mongoose";
+import Student from "../models/Student.js";
 
 const getAllStudents = async (req, res) => {
   try {
@@ -66,4 +66,4 @@ const getStudentById = async (req, res) => {
   }
 };
 
-module.exports = { getAllStudents, getStudentById };
+export { getAllStudents, getStudentById };
